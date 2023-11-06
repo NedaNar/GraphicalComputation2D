@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 
 let x = 0;
 let y = 0;
-const circleRadius = 40;
+const circleRadius = 60;
 
 const catPlanetRadius = 70;
 const turtlePlanetRadius = 80;
@@ -18,19 +18,43 @@ const planets = [
 
 let circleX = canvas.width / 2;
 let circleY = canvas.height / 2;
-let playerColor = "blue";
 
-const yellow_rgb = [
-  "rgb(225, 193, 110)",
-  "rgb(228, 155, 15)",
-  "rgb(251, 206, 177)",
+// Colors
+
+const turtleColors = [
+  "rgb(194, 180, 59)",
+  "rgb(204, 233, 229)",
+  "rgb(10, 68, 57)",
 ];
-const red_rgb = ["rgb(129, 19, 49)", "rgb(248, 131, 121)", "rgb(236, 88, 0)"];
-const white_rgb = [
-  "rgb(245, 245, 220)",
-  "rgb(233, 220, 201)",
-  "rgb(226, 223, 210)",
+const penguinColors = [
+  "rgb(194, 180, 59)",
+  "rgb(72, 82, 117)",
+  "rgb(206, 202, 233)",
 ];
+const rabbitColors = [
+  "rgb(194, 180, 59)",
+  "rgb(97, 57, 73)",
+  "rgb(245, 144, 155)",
+];
+
+let rgb = turtleColors;
+
+const turtlePlanet = new Image();
+turtlePlanet.src = "./elements/TurtlePlane.png";
+
+//// Players
+
+const turtleImage = new Image();
+turtleImage.src = "./elements/turtle.png";
+
+const rabbitImage = new Image();
+rabbitImage.src = "./elements/rabbit.png";
+
+const penguinImage = new Image();
+penguinImage.src = "./elements/penguin.png";
+
+let player = new Image();
+player = turtleImage;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -49,8 +73,6 @@ let mouse = {
   y: undefined,
 };
 
-let rgb = ["rgb(139, 163, 175)", "rgb(198, 248, 255)", "rgb(22, 151, 196)"];
-
 function drawStars() {
   for (let i = 0; i < stars.length; i++) {
     stars[i].update();
@@ -66,6 +88,7 @@ function mousemove(e) {
   mouse.x = e.clientX || e.pageX;
   mouse.y = e.clientY || e.pageY;
 
+  stars.push(new Star());
   stars.push(new Star());
   stars.push(new Star());
 }
@@ -116,8 +139,8 @@ class Star {
       let progress = this.time / this.ttl;
 
       this.size = this.size * Math.pow(1 - progress, 0.1);
-      this.x += (this.x_end - this.x) * 0.005;
-      this.y += (this.y_end - this.y) * 0.005;
+      this.x += (this.x_end - this.x) * 0.007;
+      this.y += (this.y_end - this.y) * 0.007;
     }
 
     this.time++;
@@ -164,11 +187,7 @@ function drawBackground() {
     bgCanvas.height
   );
 
-  ctx.beginPath();
-  ctx.arc(planets[0].x, planets[0].y, catPlanetRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "red";
-  ctx.fill();
-  ctx.closePath();
+  ctx.drawImage(turtlePlanet, 130, 130);
 
   ctx.beginPath();
   ctx.arc(planets[1].x, planets[1].y, turtlePlanetRadius, 0, Math.PI * 2);
@@ -183,13 +202,14 @@ function drawBackground() {
   ctx.closePath();
 }
 
-function drawCircle(color) {
-  ctx.beginPath();
-  ctx.arc(circleX, circleY, circleRadius, 0, Math.PI * 2);
-  ctx.fillStyle = color;
-  ctx.fill();
-  ctx.closePath();
-  drawStars();
+function drawCircle() {
+  ctx.drawImage(
+    player,
+    circleX - circleRadius,
+    circleY - circleRadius,
+    circleRadius * 2,
+    circleRadius * 2
+  );
 }
 
 function updateCirclePosition(event) {
@@ -238,28 +258,28 @@ function checkCollisions() {
       // Calculate the position of the moving circle's center at the edge of the planet
       if (i == 2) {
         circleCenterX =
-          planets[i].x + planets[i].radius * Math.cos(angle) * 1.35;
+          planets[i].x + planets[i].radius * Math.cos(angle) * 1.5;
         circleCenterY =
-          planets[i].y + planets[i].radius * Math.sin(angle) * 1.35;
+          planets[i].y + planets[i].radius * Math.sin(angle) * 1.5;
 
-        rgb = yellow_rgb;
-        playerColor = "yellow";
+        rgb = turtleColors;
+        player = turtleImage;
       } else if (i == 1) {
         circleCenterX =
           planets[i].x + planets[i].radius * Math.cos(angle) * 1.5;
         circleCenterY =
           planets[i].y + planets[i].radius * Math.sin(angle) * 1.5;
 
-        rgb = white_rgb;
-        playerColor = "white";
+        rgb = rabbitColors;
+        player = rabbitImage;
       } else {
         circleCenterX =
           planets[i].x + planets[i].radius * Math.cos(angle) * 1.55;
         circleCenterY =
           planets[i].y + planets[i].radius * Math.sin(angle) * 1.55;
 
-        rgb = red_rgb;
-        playerColor = "red";
+        rgb = penguinColors;
+        player = penguinImage;
       }
       // Update the position of the moving circle to stay on the edge of the planet
       circleX = circleCenterX;
@@ -285,10 +305,12 @@ function drawStars() {
 
 function gameLoop() {
   drawBackground();
+  drawStars();
+
   if (firstClick) {
     checkCollisions();
 
-    drawCircle(playerColor);
+    drawCircle();
   }
   requestAnimationFrame(gameLoop);
 }

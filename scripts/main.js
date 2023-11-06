@@ -67,6 +67,7 @@ function mousemove(e) {
   mouse.y = e.clientY || e.pageY;
 
   stars.push(new Star());
+  stars.push(new Star());
 }
 
 class Star {
@@ -74,10 +75,10 @@ class Star {
     this.x = mouse.x + getRandomInt(-10, 10);
     this.y = mouse.y + getRandomInt(-10, 10);
 
-    this.x_end = this.x + getRandomInt(-100, 100);
-    this.y_end = this.y + getRandomInt(-100, 100);
+    this.x_end = this.x + getRandomInt(-300, 300);
+    this.y_end = this.y + getRandomInt(-300, 300);
 
-    this.size = getRandomInt(5, 10);
+    this.size = getRandomInt(5, 15);
 
     this.style = rgb[getRandomInt(0, rgb.length - 1)];
 

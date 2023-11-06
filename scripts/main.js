@@ -20,6 +20,18 @@ let circleX = canvas.width / 2;
 let circleY = canvas.height / 2;
 let playerColor = "blue";
 
+const yellow_rgb = [
+  "rgb(225, 193, 110)",
+  "rgb(228, 155, 15)",
+  "rgb(251, 206, 177)",
+];
+const red_rgb = ["rgb(129, 19, 49)", "rgb(248, 131, 121)", "rgb(236, 88, 0)"];
+const white_rgb = [
+  "rgb(245, 245, 220)",
+  "rgb(233, 220, 201)",
+  "rgb(226, 223, 210)",
+];
+
 ///////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////
@@ -228,18 +240,24 @@ function checkCollisions() {
           planets[i].x + planets[i].radius * Math.cos(angle) * 1.35;
         circleCenterY =
           planets[i].y + planets[i].radius * Math.sin(angle) * 1.35;
+
+        rgb = yellow_rgb;
         playerColor = "yellow";
       } else if (i == 1) {
         circleCenterX =
           planets[i].x + planets[i].radius * Math.cos(angle) * 1.5;
         circleCenterY =
           planets[i].y + planets[i].radius * Math.sin(angle) * 1.5;
+
+        rgb = white_rgb;
         playerColor = "white";
       } else {
         circleCenterX =
           planets[i].x + planets[i].radius * Math.cos(angle) * 1.55;
         circleCenterY =
           planets[i].y + planets[i].radius * Math.sin(angle) * 1.55;
+
+        rgb = red_rgb;
         playerColor = "red";
       }
       // Update the position of the moving circle to stay on the edge of the planet

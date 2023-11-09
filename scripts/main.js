@@ -237,8 +237,8 @@ canvas.addEventListener("click", function (e) {
   const rabbitPlanetElement = document.getElementById("rabbitPlanet");
   rabbitPlanetElement.style.width = "230px"; // 
   rabbitPlanetElement.style.height = "230px"; //
-  rabbitPlanetElement.style.left = "1010px"; // 
-  rabbitPlanetElement.style.top = "310px"; // 
+  rabbitPlanetElement.style.left = "1310px"; // 
+  rabbitPlanetElement.style.top = "510px"; // 
 
   const penguinPlanetElement = document.getElementById("penguinPlanet");
   penguinPlanetElement.style.width = "180px"; 
@@ -271,9 +271,10 @@ function checkCollisions() {
     if (distance < planets[i].radius + circleRadius) {
       // Calculate the angle between the planet's center and the moving circle
       const angle = Math.atan2(dy, dx);
-      console.log(i);
+      
       // Calculate the position of the moving circle's center at the edge of the planet
       if (i == 2) {
+        
         circleCenterX =
           planets[i].x + planets[i].radius * Math.cos(angle) * 1.5;
         circleCenterY =
@@ -290,6 +291,7 @@ function checkCollisions() {
         rgb = rabbitColors;
         player = rabbitImage;
       } else {
+        
         circleCenterX =
           planets[i].x + planets[i].radius * Math.cos(angle) * 1.8;
         circleCenterY =

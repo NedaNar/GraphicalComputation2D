@@ -1,6 +1,8 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 let x = 0;
 let y = 0;
 const circleRadius = 60;
@@ -8,6 +10,8 @@ const circleRadius = 60;
 const catPlanetRadius = 70;
 const turtlePlanetRadius = 80;
 const penguinPlanetRadius = 110;
+
+let rotationAngle = 0; // head rotation
 
 // planets, their positions and radius
 const planets = [
@@ -57,9 +61,6 @@ let player = new Image();
 player = turtleImage;
 let playerAngle = 0;
 
-///////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////
 
 // Particles
 
@@ -187,19 +188,8 @@ function drawBackground() {
     bgCanvas.height
   );
 
-  ctx.drawImage(turtlePlanet, 130, 130);
+  //  ctx.drawImage(turtlePlanet, 130, 130);
 
-  ctx.beginPath();
-  ctx.arc(planets[1].x, planets[1].y, turtlePlanetRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "white";
-  ctx.fill();
-  ctx.closePath();
-
-  ctx.beginPath();
-  ctx.arc(planets[2].x, planets[2].y, penguinPlanetRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "yellow";
-  ctx.fill();
-  ctx.closePath();
 }
 
 function drawCircle() {
@@ -234,6 +224,30 @@ function updateCirclePosition(event) {
   }
 }
 
+
+
+
+canvas.addEventListener("click", function (e) {
+  const turtlePlanetElement = document.getElementById("turtlePlanet");
+  turtlePlanetElement.style.width = "140px"; // 
+  turtlePlanetElement.style.height = "140px"; 
+  turtlePlanetElement.style.left = "210px"; //
+  turtlePlanetElement.style.top = "210px"; // 
+
+  const rabbitPlanetElement = document.getElementById("rabbitPlanet");
+  rabbitPlanetElement.style.width = "230px"; // 
+  rabbitPlanetElement.style.height = "230px"; //
+  rabbitPlanetElement.style.left = "1010px"; // 
+  rabbitPlanetElement.style.top = "310px"; // 
+
+  const penguinPlanetElement = document.getElementById("penguinPlanet");
+  penguinPlanetElement.style.width = "180px"; 
+  penguinPlanetElement.style.height = "180px"; 
+  penguinPlanetElement.style.left = "610px"; 
+  penguinPlanetElement.style.top = "410px"; 
+});
+
+
 canvas.addEventListener("click", function (e) {
   if (!firstClick) {
     firstClick = true;
@@ -254,7 +268,7 @@ function checkCollisions() {
     const dy = circleY - planets[i].y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance < planets[i].radius + circleRadius + 30) {
+    if (distance < planets[i].radius + circleRadius) {
       // Calculate the angle between the planet's center and the moving circle
       const angle = Math.atan2(dy, dx);
       console.log(i);
@@ -269,17 +283,17 @@ function checkCollisions() {
         player = turtleImage;
       } else if (i == 1) {
         circleCenterX =
-          planets[i].x + planets[i].radius * Math.cos(angle) * 1.5;
+          planets[i].x + planets[i].radius * Math.cos(angle) * 1.7;
         circleCenterY =
-          planets[i].y + planets[i].radius * Math.sin(angle) * 1.5;
+          planets[i].y + planets[i].radius * Math.sin(angle) * 1.7;
 
         rgb = rabbitColors;
         player = rabbitImage;
       } else {
         circleCenterX =
-          planets[i].x + planets[i].radius * Math.cos(angle) * 1.55;
+          planets[i].x + planets[i].radius * Math.cos(angle) * 1.8;
         circleCenterY =
-          planets[i].y + planets[i].radius * Math.sin(angle) * 1.55;
+          planets[i].y + planets[i].radius * Math.sin(angle) * 1.8;
 
         rgb = penguinColors;
         player = penguinImage;
@@ -315,6 +329,7 @@ function gameLoop() {
 
     drawCircle();
   }
+
   requestAnimationFrame(gameLoop);
 }
 

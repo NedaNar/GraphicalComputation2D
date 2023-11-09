@@ -13,11 +13,3 @@ canvas {
 	top: 0;
 	left: 0;
 }
-
-#bgCanvas {
-	z-index: 0;
-}
-
-#starsCanvas {
-	z-index: 1;
-}

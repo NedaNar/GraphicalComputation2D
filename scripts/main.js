@@ -13,7 +13,7 @@ const penguinPlanetRadius = 110;
 const planets = [
   { x: 200, y: 200, isMoving: false, radius: 70 },
   { x: 600, y: 400, isMoving: false, radius: 80 },
-  { x: 1000, y: 300, isMoving: false, radius: 110 },
+  { x: 1300, y: 500, isMoving: false, radius: 110 },
 ];
 
 let circleX = canvas.width / 2;
@@ -55,6 +55,7 @@ penguinImage.src = "./elements/penguin.png";
 
 let player = new Image();
 player = turtleImage;
+let playerAngle = 0;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -88,7 +89,6 @@ function mousemove(e) {
   mouse.x = e.clientX || e.pageX;
   mouse.y = e.clientY || e.pageY;
 
-  stars.push(new Star());
   stars.push(new Star());
   stars.push(new Star());
 }
@@ -203,13 +203,19 @@ function drawBackground() {
 }
 
 function drawCircle() {
+  ctx.save();
+  ctx.translate(circleX, circleY);
+  ctx.rotate(playerAngle);
+
   ctx.drawImage(
     player,
-    circleX - circleRadius,
-    circleY - circleRadius,
+    -circleRadius,
+    -circleRadius,
     circleRadius * 2,
     circleRadius * 2
   );
+
+  ctx.restore();
 }
 
 function updateCirclePosition(event) {
@@ -218,14 +224,11 @@ function updateCirclePosition(event) {
     let newX = event.clientX - rect.left;
     let newY = event.clientY - rect.top;
 
-    newX = Math.max(
-      gameArea.left + circleRadius,
-      Math.min(gameArea.right - circleRadius, newX)
-    );
-    newY = Math.max(
-      gameArea.top + circleRadius,
-      Math.min(gameArea.bottom - circleRadius, newY)
-    );
+    // Calculate the angle based on the mouse movement
+    const deltaX = newX - circleX;
+    const deltaY = newY - circleY;
+    playerAngle = Math.atan2(deltaY, deltaX);
+
     circleX = newX;
     circleY = newY;
   }

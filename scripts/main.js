@@ -24,12 +24,14 @@ const planets = [
 let circleX = canvas.width / 2;
 let circleY = canvas.height / 2;
 
-// Ellipse 
-let ellipseX = 600;
-let ellipseY = 400;
-let ellipseRadiusX = 145;
-let ellipseRadiusY = 45;
-let ellipseRotationAngle = -160;
+// CIrcles
+let littleCircle1X = 510;
+let littleCircle1Y = 385;
+let circle1Radius = 30;
+
+let littleCircle2X = 690;
+let littleCircle2Y = 425;
+let circle2Radius = 30;
 
 // Colors
 const turtleColors = [
@@ -148,9 +150,6 @@ class Star {
     this.time++;
   }
 }
-
-/////////////////////////////////////////////////////////////////
-
 // Background Image
 
 const bgCanvas = document.querySelector("#gameCanvas");
@@ -160,8 +159,6 @@ bgCanvas.height = window.innerHeight;
 
 const backgroundImage = new Image();
 backgroundImage.src = "./elements/AnimationBackground_brighter.png";
-
-//////////////////////////////////////
 
 // Planets and main character
 const gameArea = {
@@ -188,21 +185,16 @@ function drawBackground() {
     bgCanvas.width,
     bgCanvas.height
   );
-
   ctx.save();
+  
+  //circles on the rabbitplanet
   ctx.beginPath();
-  ctx.fillStyle = "white";
-  ctx.ellipse(
-    ellipseX,  // X center
-    ellipseY, // Y center
-    ellipseRadiusX, // radiusX
-    ellipseRadiusY,        // RadiusY
-    ellipseRotationAngle,                 // angle
-    0,                 // angle of transformation
-    Math.PI * 2       // final angle
-  );
-  ctx.restore();
-  ctx.fill();
+  ctx.arc(littleCircle1X, littleCircle1Y, circle1Radius, 0, Math.PI * 2, true); 
+  ctx.closePath();
+
+  ctx.beginPath();
+  ctx.arc(littleCircle2X, littleCircle2Y, circle2Radius, 0, Math.PI * 2, true); 
+  ctx.closePath();
 }
 
 function drawCircle() {
@@ -272,30 +264,40 @@ canvas.addEventListener("click", function (e) {
 function checkCollisions() {
   let circleCenterX = 0;
   let circleCenterY = 0;
-  for (let i = 0; i < planets.length; i++) {
-    // Ellipse Collision 
-    const dxEllipse = circleX - ellipseX;
-    const dyEllipse = circleY - ellipseY;
-    const distanceEllipseX = Math.sqrt(dxEllipse * dxEllipse);
-    const distanceEllipseY = Math.sqrt(dyEllipse * dyEllipse);
-    console.log(mouse.x, mouse.y);
-    const angle1 = Math.atan2(dyEllipse, dxEllipse);
-    const angle2 = Math.atan2(dxEllipse, dyEllipse); 
+  // rabbitplanet collision circles
+  const dxC1 = circleX - littleCircle1X;
+  const dyC1 = circleY - littleCircle1Y;
+  const distanceC1 = Math.sqrt(dxC1 * dxC1 + dyC1 * dyC1);
+  const angleC1 = Math.atan2(dyC1, dxC1);
+  if (distanceC1 < circle1Radius + circleRadius){
+    circleCenterX =
+        littleCircle1X + circle1Radius * Math.cos(angleC1)*3;
+    circleCenterY =
+        littleCircle1Y + circle1Radius * Math.sin(angleC1)*3;
 
-    if (distanceEllipseX < ellipseRadiusX + circleRadius && distanceEllipseY < ellipseRadiusY + circleRadius) {
+    rgb = rabbitColors;
+    player = rabbitImage;   
+    circleX = circleCenterX;
+    circleY = circleCenterY;
+  }
 
-      ellipseCenterX =
-          ellipseX + ellipseRadiusX * Math.cos(angle1) * 1.4;
-      ellipseCenterY =
-          ellipseY + ellipseRadiusY * Math.sin(angle2) * 1.4;
-  
-      rgb = rabbitColors;
-      player = rabbitImage;
+  const dxC2 = circleX - littleCircle2X;
+  const dyC2 = circleY - littleCircle2Y;
+  const distanceC2 = Math.sqrt(dxC2 * dxC2 + dyC2 * dyC2);
+  const angleC2 = Math.atan2(dyC2, dxC2);
+  if (distanceC2 < circle2Radius + circleRadius){
+    circleCenterX =
+        littleCircle2X + circle2Radius * Math.cos(angleC2)*3;
+    circleCenterY =
+        littleCircle2Y + circle2Radius * Math.sin(angleC2)*3;
 
-      circleX = ellipseCenterX;
-      circleY = ellipseCenterY;
+    rgb = rabbitColors;
+    player = rabbitImage;
+    circleX = circleCenterX;
+    circleY = circleCenterY;
     }
 
+  for (let i = 0; i < planets.length; i++) {
     //Circles Collision 
     const dx = circleX - planets[i].x;
     const dy = circleY - planets[i].y;
@@ -316,9 +318,9 @@ function checkCollisions() {
         player = penguinImage;
       } else if (i == 1) {
         circleCenterX =
-          planets[i].x + planets[i].radius * Math.cos(angle) * 1.7;
+          planets[i].x + planets[i].radius * Math.cos(angle) * 1.8;
         circleCenterY =
-          planets[i].y + planets[i].radius * Math.sin(angle) * 1.7;
+          planets[i].y + planets[i].radius * Math.sin(angle) * 1.8;
 
         rgb = rabbitColors;
         player = rabbitImage;

@@ -169,6 +169,7 @@ const gameArea = {
 };
 
 let firstClick = false;
+let clickCounter = 0;
 
 function drawBackground() {
   ctx.fillStyle = "white";
@@ -247,12 +248,6 @@ canvas.addEventListener("click", function (e) {
   penguinPlanetElement.style.height = "180px";
   penguinPlanetElement.style.left = "600px";
   penguinPlanetElement.style.top = "400px";
-
-  const introWindow = document.getElementById("introWindow");
-  introWindow.style.width = "400px";
-  introWindow.style.height = "500px";
-  introWindow.style.left = "500px";
-  introWindow.style.top = "800px";
 });
 
 canvas.addEventListener("click", function (e) {
@@ -377,6 +372,13 @@ function drawStars() {
   }
 }
 
+function introductionWindow() {
+  const introWindow = document.getElementById("introWindow");
+  introWindow.style.width = "400px";
+  introWindow.style.height = "500px";
+  introWindow.style.left = "550px";
+  introWindow.style.top = "100px";
+}
 function gameLoop() {
   drawBackground();
   drawStars();
@@ -391,6 +393,10 @@ function gameLoop() {
 }
 
 gameLoop();
+setTimeout(function () {
+  introductionWindow();
+}, 50);
+
 setTimeout(function () {
   showIntroduction();
 }, 200);

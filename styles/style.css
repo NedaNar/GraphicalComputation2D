@@ -21,7 +21,7 @@ h1 {
   top: -82%; /* vertical position */
   left: 52%; /* horizontal */
   transform: translate(-50%, -50%); /*  */
-  transition: all 2s ease; /* animation */
+  transition: all 1.5s ease; /* animation */
 }
 
 #rabbitPlanet {
@@ -31,7 +31,7 @@ h1 {
   top: -70%;
   left: 63%;
   transform: translate(-50%, -50%);
-  transition: all 2s ease;
+  transition: all 1.5s ease;
 }
 
 #penguinPlanet {
@@ -41,7 +41,7 @@ h1 {
   top: -100%;
   left: 38%;
   transform: translate(-50%, -50%);
-  transition: all 2s ease;
+  transition: all 1.5s ease;
 }
 
 #introWindow {
@@ -49,8 +49,8 @@ h1 {
   color: white;
   width: 400px;
   height: 500px;
-  top: 15%;
+  top: -60%;
   left: 36%;
   transform: translate(0%, 0%);
-  transition: all 2s ease;
+  transition: all 1s ease;
 }

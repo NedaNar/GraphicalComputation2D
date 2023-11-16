@@ -195,8 +195,6 @@ function drawBackground() {
   ctx.beginPath();
   ctx.arc(littleCircle2X, littleCircle2Y, circle2Radius, 0, Math.PI * 2, true);
   ctx.closePath();
-
-  
 }
 
 function drawCircle() {
@@ -268,6 +266,26 @@ canvas.addEventListener("click", function (e) {
     canvas.addEventListener("mousemove", mousemove);
   }
 });
+
+function showIntroduction() {
+  const turtlePlanetElement = document.getElementById("turtlePlanet");
+  turtlePlanetElement.style.width = "80px";
+  turtlePlanetElement.style.height = "80px";
+  turtlePlanetElement.style.left = "52%";
+  turtlePlanetElement.style.top = "82%";
+
+  const rabbitPlanetElement = document.getElementById("penguinPlanet");
+  rabbitPlanetElement.style.width = "130px";
+  rabbitPlanetElement.style.height = "130px";
+  rabbitPlanetElement.style.left = "38%";
+  rabbitPlanetElement.style.top = "22%";
+
+  const penguinPlanetElement = document.getElementById("rabbitPlanet");
+  penguinPlanetElement.style.width = "89px";
+  penguinPlanetElement.style.height = "65px";
+  penguinPlanetElement.style.left = "63%";
+  penguinPlanetElement.style.top = "70%";
+}
 
 function checkCollisions() {
   let circleCenterX = 0;
@@ -373,3 +391,6 @@ function gameLoop() {
 }
 
 gameLoop();
+setTimeout(function () {
+  showIntroduction();
+}, 200);

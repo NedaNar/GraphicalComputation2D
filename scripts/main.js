@@ -12,6 +12,9 @@ const turtlePlanetRadius = 80;
 const penguinPlanetRadius = 110;
 
 let rotationAngle = 0; // head rotation
+let lastMouseMove = null;
+let shouldCheckIdle = false;
+var idleTime = 5000;
 
 // planets, their positions and radius
 const planets = [
@@ -95,6 +98,8 @@ function mousemove(e) {
 
   stars.push(new Star());
   stars.push(new Star());
+
+  lastMouseMove = new Date().getTime();
 }
 
 class Star {
@@ -230,7 +235,7 @@ function updateCirclePosition(event) {
   }
 }
 
-canvas.addEventListener("click", function (e) {
+function positionOfPlanets() {
   const turtlePlanetElement = document.getElementById("turtlePlanet");
   turtlePlanetElement.style.width = "140px";
   turtlePlanetElement.style.height = "140px";
@@ -248,7 +253,7 @@ canvas.addEventListener("click", function (e) {
   penguinPlanetElement.style.height = "180px";
   penguinPlanetElement.style.left = "600px";
   penguinPlanetElement.style.top = "400px";
-});
+}
 
 canvas.addEventListener("click", function (e) {
   if (!firstClick) {
@@ -376,7 +381,7 @@ function introductionWindow() {
   const introWindow = document.getElementById("introWindow");
   introWindow.style.width = "400px";
   introWindow.style.height = "500px";
-  introWindow.style.left = "550px";
+  introWindow.style.left = "36%";
   introWindow.style.top = "100px";
 }
 function gameLoop() {
@@ -393,17 +398,26 @@ function gameLoop() {
 
 var clickCount = 0;
 
-  function handleClick(event) {
-    clickCount++;
-    var outputElement = document.getElementById('output');
-    firstClick = true;
-  }
+function handleClick(event) {
+  clickCount++;
+  var outputElement = document.getElementById("output");
+  firstClick = true;
+  shouldCheckIdle = true;
 
-  // Получаем кнопку по её идентификатору
-  var myButton = document.getElementById('closeButton');
+  positionOfPlanets();
+  drawCircle();
+  const introWindow = document.getElementById("introWindow");
+  introWindow.style.width = "400px";
+  introWindow.style.height = "500px";
+  introWindow.style.left = "36%";
+  introWindow.style.top = "100%";
+}
 
-  // Присваиваем обработчик события click кнопке
-  myButton.addEventListener('click', handleClick);
+// Получаем кнопку по её идентификатору
+var myButton = document.getElementById("closeButton");
+
+// Присваиваем обработчик события click кнопке
+myButton.addEventListener("click", handleClick);
 
 gameLoop();
 setTimeout(function () {
@@ -413,3 +427,27 @@ setTimeout(function () {
 setTimeout(function () {
   showIntroduction();
 }, 200);
+
+function checkIdle() {
+  var currentTime = new Date().getTime();
+  if (lastMouseMove == null || !shouldCheckIdle) {
+    lastMouseMove = currentTime;
+
+    setTimeout(checkIdle, 100);
+    return;
+  }
+  var elapsedTime = currentTime - lastMouseMove;
+
+  if (elapsedTime >= idleTime) {
+    console.log("Mouse has been idle for 5 seconds");
+    shouldCheckIdle = false;
+    introductionWindow();
+    showIntroduction();
+
+    lastMouseMove = currentTime;
+  }
+
+  setTimeout(checkIdle, 100);
+}
+
+checkIdle();

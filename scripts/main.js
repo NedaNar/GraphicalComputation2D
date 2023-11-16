@@ -13,7 +13,7 @@ const penguinPlanetRadius = 110;
 
 let rotationAngle = 0; // head rotation
 let lastMouseMove = null;
-let shouldCheckIdle = false;
+let isDialogClosed = false;
 var idleTime = 5000;
 
 // planets, their positions and radius
@@ -96,8 +96,10 @@ function mousemove(e) {
   mouse.x = e.clientX || e.pageX;
   mouse.y = e.clientY || e.pageY;
 
-  stars.push(new Star());
-  stars.push(new Star());
+  if (isDialogClosed) {
+    stars.push(new Star());
+    stars.push(new Star());
+  }
 
   lastMouseMove = new Date().getTime();
 }
@@ -255,18 +257,6 @@ function positionOfPlanets() {
   penguinPlanetElement.style.top = "400px";
 }
 
-canvas.addEventListener("click", function (e) {
-  if (!firstClick) {
-    firstClick = true;
-    const rect = canvas.getBoundingClientRect();
-    circleX = e.clientX - rect.left;
-    circleY = e.clientY - rect.top;
-
-    canvas.addEventListener("mousemove", updateCirclePosition);
-    canvas.addEventListener("mousemove", mousemove);
-  }
-});
-
 function showIntroduction() {
   const turtlePlanetElement = document.getElementById("turtlePlanet");
   turtlePlanetElement.style.width = "80px";
@@ -362,14 +352,6 @@ function checkCollisions() {
   }
 }
 
-function drawParticles() {
-  requestAnimFrame(drawParticles);
-
-  starsCtx.clearRect(0, 0, w, h);
-  starsCtx.globalCompositeOperation = "lighter";
-  drawStars();
-}
-
 function drawStars() {
   for (let i = 0; i < stars.length; i++) {
     stars[i].update();
@@ -386,10 +368,9 @@ function introductionWindow() {
 }
 function gameLoop() {
   drawBackground();
-  drawStars();
-  if (firstClick) {
+  if (isDialogClosed && firstClick) {
+    drawStars();
     checkCollisions();
-
     drawCircle();
   }
 
@@ -400,9 +381,16 @@ var clickCount = 0;
 
 function handleClick(event) {
   clickCount++;
-  var outputElement = document.getElementById("output");
+
+  if (!firstClick) {
+    circleX = mouse.x;
+    circleY = mouse.y;
+
+    window.addEventListener("mousemove", updateCirclePosition);
+  }
+
   firstClick = true;
-  shouldCheckIdle = true;
+  isDialogClosed = true;
 
   positionOfPlanets();
   drawCircle();
@@ -413,10 +401,9 @@ function handleClick(event) {
   introWindow.style.top = "100%";
 }
 
-// Получаем кнопку по её идентификатору
-var myButton = document.getElementById("closeButton");
+canvas.addEventListener("mousemove", mousemove);
 
-// Присваиваем обработчик события click кнопке
+var myButton = document.getElementById("closeButton");
 myButton.addEventListener("click", handleClick);
 
 gameLoop();
@@ -430,7 +417,7 @@ setTimeout(function () {
 
 function checkIdle() {
   var currentTime = new Date().getTime();
-  if (lastMouseMove == null || !shouldCheckIdle) {
+  if (lastMouseMove == null || !isDialogClosed) {
     lastMouseMove = currentTime;
 
     setTimeout(checkIdle, 100);
@@ -439,8 +426,7 @@ function checkIdle() {
   var elapsedTime = currentTime - lastMouseMove;
 
   if (elapsedTime >= idleTime) {
-    console.log("Mouse has been idle for 5 seconds");
-    shouldCheckIdle = false;
+    isDialogClosed = false;
     introductionWindow();
     showIntroduction();
 
@@ -451,3 +437,10 @@ function checkIdle() {
 }
 
 checkIdle();
+
+function handleResize() {
+  bgCanvas.width = window.innerWidth;
+  bgCanvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", handleResize);

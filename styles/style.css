@@ -53,6 +53,7 @@ h1 {
   left: 36%;
   transform: translate(0%, 0%);
   transition: all 1s ease;
+  pointer-events: none;
 }
 
 #closeButton {
@@ -62,4 +63,5 @@ h1 {
   top: 450px;
   left: 150px;
   border-radius: 20px;
+  pointer-events: auto;
 }

@@ -366,7 +366,7 @@ function introductionWindow(){
 function gameLoop() {
   drawBackground();
   drawStars();
-  
+  introductionWindow();
   if (firstClick) {
     checkCollisions();
 
@@ -375,6 +375,20 @@ function gameLoop() {
 
   requestAnimationFrame(gameLoop);
 }
+
+var clickCount = 0;
+
+  function handleClick(event) {
+    clickCount++;
+    var outputElement = document.getElementById('output');
+    firstClick = true;
+  }
+
+  // Получаем кнопку по её идентификатору
+  var myButton = document.getElementById('closeButton');
+
+  // Присваиваем обработчик события click кнопке
+  myButton.addEventListener('click', handleClick);
 
 gameLoop();
 introductionWindow();

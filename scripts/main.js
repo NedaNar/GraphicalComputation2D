@@ -30,7 +30,7 @@ let littleCircle1Y = 385;
 let circle1Radius = 30;
 
 let littleCircle2X = 690;
-let littleCircle2Y = 425;
+let littleCircle2Y = 420;
 let circle2Radius = 30;
 
 // Colors
@@ -195,6 +195,8 @@ function drawBackground() {
   ctx.beginPath();
   ctx.arc(littleCircle2X, littleCircle2Y, circle2Radius, 0, Math.PI * 2, true);
   ctx.closePath();
+
+  
 }
 
 function drawCircle() {
@@ -247,6 +249,12 @@ canvas.addEventListener("click", function (e) {
   penguinPlanetElement.style.height = "180px";
   penguinPlanetElement.style.left = "600px";
   penguinPlanetElement.style.top = "400px";
+
+  const introWindow = document.getElementById("introWindow");
+  introWindow.style.width = "400px";
+  introWindow.style.height = "500px";
+  introWindow.style.left = "500px";
+  introWindow.style.top = "800px";
 });
 
 canvas.addEventListener("click", function (e) {

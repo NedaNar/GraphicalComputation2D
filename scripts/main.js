@@ -186,14 +186,14 @@ function drawBackground() {
     bgCanvas.height
   );
   ctx.save();
-  
+
   //circles on the rabbitplanet
   ctx.beginPath();
-  ctx.arc(littleCircle1X, littleCircle1Y, circle1Radius, 0, Math.PI * 2, true); 
+  ctx.arc(littleCircle1X, littleCircle1Y, circle1Radius, 0, Math.PI * 2, true);
   ctx.closePath();
 
   ctx.beginPath();
-  ctx.arc(littleCircle2X, littleCircle2Y, circle2Radius, 0, Math.PI * 2, true); 
+  ctx.arc(littleCircle2X, littleCircle2Y, circle2Radius, 0, Math.PI * 2, true);
   ctx.closePath();
 }
 
@@ -243,7 +243,7 @@ canvas.addEventListener("click", function (e) {
   rabbitPlanetElement.style.top = "500px";
 
   const penguinPlanetElement = document.getElementById("rabbitPlanet");
-  penguinPlanetElement.style.width = "286px";
+  penguinPlanetElement.style.width = "246px";
   penguinPlanetElement.style.height = "180px";
   penguinPlanetElement.style.left = "600px";
   penguinPlanetElement.style.top = "400px";
@@ -269,14 +269,12 @@ function checkCollisions() {
   const dyC1 = circleY - littleCircle1Y;
   const distanceC1 = Math.sqrt(dxC1 * dxC1 + dyC1 * dyC1);
   const angleC1 = Math.atan2(dyC1, dxC1);
-  if (distanceC1 < circle1Radius + circleRadius){
-    circleCenterX =
-        littleCircle1X + circle1Radius * Math.cos(angleC1)*3;
-    circleCenterY =
-        littleCircle1Y + circle1Radius * Math.sin(angleC1)*3;
+  if (distanceC1 < circle1Radius + circleRadius) {
+    circleCenterX = littleCircle1X + circle1Radius * Math.cos(angleC1) * 3;
+    circleCenterY = littleCircle1Y + circle1Radius * Math.sin(angleC1) * 3;
 
     rgb = rabbitColors;
-    player = rabbitImage;   
+    player = rabbitImage;
     circleX = circleCenterX;
     circleY = circleCenterY;
   }
@@ -285,20 +283,18 @@ function checkCollisions() {
   const dyC2 = circleY - littleCircle2Y;
   const distanceC2 = Math.sqrt(dxC2 * dxC2 + dyC2 * dyC2);
   const angleC2 = Math.atan2(dyC2, dxC2);
-  if (distanceC2 < circle2Radius + circleRadius){
-    circleCenterX =
-        littleCircle2X + circle2Radius * Math.cos(angleC2)*3;
-    circleCenterY =
-        littleCircle2Y + circle2Radius * Math.sin(angleC2)*3;
+  if (distanceC2 < circle2Radius + circleRadius) {
+    circleCenterX = littleCircle2X + circle2Radius * Math.cos(angleC2) * 3;
+    circleCenterY = littleCircle2Y + circle2Radius * Math.sin(angleC2) * 3;
 
     rgb = rabbitColors;
     player = rabbitImage;
     circleX = circleCenterX;
     circleY = circleCenterY;
-    }
+  }
 
   for (let i = 0; i < planets.length; i++) {
-    //Circles Collision 
+    //Circles Collision
     const dx = circleX - planets[i].x;
     const dy = circleY - planets[i].y;
     const distance = Math.sqrt(dx * dx + dy * dy);

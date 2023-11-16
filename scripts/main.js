@@ -196,8 +196,6 @@ function drawBackground() {
   ctx.beginPath();
   ctx.arc(littleCircle2X, littleCircle2Y, circle2Radius, 0, Math.PI * 2, true);
   ctx.closePath();
-
-  
 }
 
 function drawCircle() {
@@ -250,7 +248,6 @@ canvas.addEventListener("click", function (e) {
   penguinPlanetElement.style.height = "180px";
   penguinPlanetElement.style.left = "600px";
   penguinPlanetElement.style.top = "400px";
-
 });
 
 canvas.addEventListener("click", function (e) {
@@ -264,6 +261,26 @@ canvas.addEventListener("click", function (e) {
     canvas.addEventListener("mousemove", mousemove);
   }
 });
+
+function showIntroduction() {
+  const turtlePlanetElement = document.getElementById("turtlePlanet");
+  turtlePlanetElement.style.width = "80px";
+  turtlePlanetElement.style.height = "80px";
+  turtlePlanetElement.style.left = "52%";
+  turtlePlanetElement.style.top = "82%";
+
+  const rabbitPlanetElement = document.getElementById("penguinPlanet");
+  rabbitPlanetElement.style.width = "130px";
+  rabbitPlanetElement.style.height = "130px";
+  rabbitPlanetElement.style.left = "38%";
+  rabbitPlanetElement.style.top = "22%";
+
+  const penguinPlanetElement = document.getElementById("rabbitPlanet");
+  penguinPlanetElement.style.width = "89px";
+  penguinPlanetElement.style.height = "65px";
+  penguinPlanetElement.style.left = "63%";
+  penguinPlanetElement.style.top = "70%";
+}
 
 function checkCollisions() {
   let circleCenterX = 0;
@@ -355,18 +372,16 @@ function drawStars() {
   }
 }
 
-function introductionWindow(){
+function introductionWindow() {
   const introWindow = document.getElementById("introWindow");
   introWindow.style.width = "400px";
   introWindow.style.height = "500px";
   introWindow.style.left = "550px";
   introWindow.style.top = "100px";
-
 }
 function gameLoop() {
   drawBackground();
   drawStars();
-  introductionWindow();
   if (firstClick) {
     checkCollisions();
 
@@ -391,4 +406,10 @@ var clickCount = 0;
   myButton.addEventListener('click', handleClick);
 
 gameLoop();
-introductionWindow();
+setTimeout(function () {
+  introductionWindow();
+}, 50);
+
+setTimeout(function () {
+  showIntroduction();
+}, 200);

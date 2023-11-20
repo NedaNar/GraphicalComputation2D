@@ -312,7 +312,7 @@ function gameLoop() {
 
   requestAnimationFrame(gameLoop);
 }
-
+let introDurection = false;
 function handleClick(event) {
   if (!firstClick) {
     circleX = mouse.x;
@@ -326,7 +326,14 @@ function handleClick(event) {
 
   changePlanetsPosition();
   drawCharacter();
-  resizeElement("introWindow", "400px", "500px", "36%", "100%");
+  if(introDurection){
+    resizeElement("introWindow", "400px", "500px", "36%", "-100%");
+    introDurection = false;;
+  } else{
+    resizeElement("introWindow", "400px", "500px", "36%", "100%");
+    introDurection = true;
+  }
+  
 }
 
 function showDialog() {

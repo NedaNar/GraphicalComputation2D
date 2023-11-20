@@ -341,7 +341,7 @@ function changePlanetsPosition() {
 
 function showIntroduction() {
   resizeElement("turtlePlanet", "80px", "80px", "52%", "82%");
-  resizeElement("penguinPlanet", "130px", "130px", "38%", "22%");
+  resizeElement("penguinPlanet", "130px", "130px", "35%", "19%");
   resizeElement("rabbitPlanet", "89px", "65px", "63%", "70%");
 }
 

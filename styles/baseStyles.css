@@ -14,3 +14,13 @@ canvas {
   top: 0;
   left: 0;
 }
+
+@font-face {
+  font-family: "Cuddly";
+  src: url("../font/CuteNCuddly.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "OpenSans";
+  src: url("../font/OpenSans.ttf") format("truetype");
+}

@@ -40,14 +40,13 @@ h1 {
   width: 0px;
   height: 0px;
   top: -100%;
-  left: 38%;
+  left: 35%;
   transform: translate(-50%, -50%);
   transition: all 1.5s ease;
 }
 
 #introWindow {
   position: absolute;
-  color: white;
   width: 400px;
   height: 500px;
   top: -60%;
@@ -55,14 +54,37 @@ h1 {
   transform: translate(0%, 0%);
   transition: all 1s ease;
   pointer-events: none;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 #closeButton {
-  position: absolute;
-  width: 100px;
-  height: 40px;
-  top: 450px;
-  left: 150px;
-  border-radius: 20px;
+  width: 320px;
+  height: 60px;
+  margin-left: 40px;
+  margin-bottom: 30px;
+  margin-top: 10px;
+  border-radius: 30px;
   pointer-events: auto;
+  background-color: #f5909b;
+  border: none;
+  font-size: 20px;
+  font-family: "OpenSans";
+  cursor: pointer;
+}
+
+#closeButton:hover {
+  background-color: #ec622b;
+}
+
+#desc {
+  padding: 0px 40px;
+  font-family: "OpenSans";
+}
+
+#title {
+  padding: 25px 40px 0px 40px;
+  font-size: 36px;
+  text-align: center;
+  font-family: "Cuddly";
 }

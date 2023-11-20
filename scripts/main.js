@@ -1,40 +1,36 @@
+// INITIAL ELEMENTS AND VALUES
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+var closeButton = document.getElementById("closeButton");
 
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 let x = 0;
 let y = 0;
-const circleRadius = 60;
-
-const catPlanetRadius = 70;
-const turtlePlanetRadius = 80;
-const penguinPlanetRadius = 110;
 
 let rotationAngle = 0; // head rotation
 let lastMouseMove = null;
 let isDialogClosed = false;
+let firstClick = false;
 var idleTime = 5000;
 
-// planets, their positions and radius
+// Planets, their positions and radius
 const planets = [
-  { x: 200, y: 200, isMoving: false, radius: 70 },
-  { x: 600, y: 400, isMoving: false, radius: 80 },
-  { x: 1300, y: 500, isMoving: false, radius: 110 },
+  { x: 200, y: 200, radius: 70 },
+  { x: 600, y: 400, radius: 80 },
+  { x: 1300, y: 500, radius: 110 },
 ];
 
-//Main character
+const helpingPlanets = [
+  { x: 510, y: 385, radius: 30 },
+  { x: 690, y: 420, radius: 30 },
+];
+
+// Main character
+const circleRadius = 60;
 let circleX = canvas.width / 2;
 let circleY = canvas.height / 2;
-
-// CIrcles
-let littleCircle1X = 510;
-let littleCircle1Y = 385;
-let circle1Radius = 30;
-
-let littleCircle2X = 690;
-let littleCircle2Y = 420;
-let circle2Radius = 30;
 
 // Colors
 const turtleColors = [
@@ -55,7 +51,7 @@ const rabbitColors = [
 
 let rgb = turtleColors;
 
-//// Players
+// Players
 const turtleImage = new Image();
 turtleImage.src = "./elements/turtle.png";
 
@@ -81,28 +77,18 @@ let mouse = {
   y: undefined,
 };
 
-function drawStars() {
-  for (let i = 0; i < stars.length; i++) {
-    stars[i].update();
-    stars[i].draw();
-  }
-}
+// Background Image
 
-function getRandomInt(min, max) {
-  return Math.round(Math.random() * (max - min)) + min;
-}
+const bgCanvas = document.querySelector("#gameCanvas");
+const bgCtx = bgCanvas.getContext("2d");
+bgCanvas.width = window.innerWidth;
+bgCanvas.height = window.innerHeight;
 
-function mousemove(e) {
-  mouse.x = e.clientX || e.pageX;
-  mouse.y = e.clientY || e.pageY;
+const backgroundImage = new Image();
+backgroundImage.src = "./elements/AnimationBackground_brighter.png";
 
-  if (isDialogClosed) {
-    stars.push(new Star());
-    stars.push(new Star());
-  }
-
-  lastMouseMove = new Date().getTime();
-}
+// -------------------------------------------------------
+// STAR CLASS
 
 class Star {
   constructor() {
@@ -157,26 +143,32 @@ class Star {
     this.time++;
   }
 }
-// Background Image
 
-const bgCanvas = document.querySelector("#gameCanvas");
-const bgCtx = bgCanvas.getContext("2d");
-bgCanvas.width = window.innerWidth;
-bgCanvas.height = window.innerHeight;
+// -------------------------------------------------------
+// FUNCTIONS
 
-const backgroundImage = new Image();
-backgroundImage.src = "./elements/AnimationBackground_brighter.png";
+function drawStars() {
+  for (let i = 0; i < stars.length; i++) {
+    stars[i].update();
+    stars[i].draw();
+  }
+}
 
-// Planets and main character
-const gameArea = {
-  left: 0,
-  top: 0,
-  right: canvas.width,
-  bottom: canvas.height,
-};
+function getRandomInt(min, max) {
+  return Math.round(Math.random() * (max - min)) + min;
+}
 
-let firstClick = false;
-let clickCounter = 0;
+function mousemove(e) {
+  mouse.x = e.clientX || e.pageX;
+  mouse.y = e.clientY || e.pageY;
+
+  if (isDialogClosed) {
+    stars.push(new Star());
+    stars.push(new Star());
+  }
+
+  lastMouseMove = new Date().getTime();
+}
 
 function drawBackground() {
   ctx.fillStyle = "white";
@@ -195,17 +187,18 @@ function drawBackground() {
   );
   ctx.save();
 
-  //circles on the rabbitplanet
-  ctx.beginPath();
-  ctx.arc(littleCircle1X, littleCircle1Y, circle1Radius, 0, Math.PI * 2, true);
-  ctx.closePath();
+  // Circles on the rabbitplanet
+  drawCircle(helpingPlanets[0]);
+  drawCircle(helpingPlanets[1]);
+}
 
+function drawCircle(circle) {
   ctx.beginPath();
-  ctx.arc(littleCircle2X, littleCircle2Y, circle2Radius, 0, Math.PI * 2, true);
+  ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2, true);
   ctx.closePath();
 }
 
-function drawCircle() {
+function drawCharacter() {
   ctx.save();
   ctx.translate(circleX, circleY);
   ctx.rotate(playerAngle);
@@ -237,119 +230,69 @@ function updateCirclePosition(event) {
   }
 }
 
-function positionOfPlanets() {
-  const turtlePlanetElement = document.getElementById("turtlePlanet");
-  turtlePlanetElement.style.width = "140px";
-  turtlePlanetElement.style.height = "140px";
-  turtlePlanetElement.style.left = "200px";
-  turtlePlanetElement.style.top = "200px";
-
-  const rabbitPlanetElement = document.getElementById("penguinPlanet");
-  rabbitPlanetElement.style.width = "230px";
-  rabbitPlanetElement.style.height = "230px";
-  rabbitPlanetElement.style.left = "1300px";
-  rabbitPlanetElement.style.top = "500px";
-
-  const penguinPlanetElement = document.getElementById("rabbitPlanet");
-  penguinPlanetElement.style.width = "246px";
-  penguinPlanetElement.style.height = "180px";
-  penguinPlanetElement.style.left = "600px";
-  penguinPlanetElement.style.top = "400px";
-}
-
-function showIntroduction() {
-  const turtlePlanetElement = document.getElementById("turtlePlanet");
-  turtlePlanetElement.style.width = "80px";
-  turtlePlanetElement.style.height = "80px";
-  turtlePlanetElement.style.left = "52%";
-  turtlePlanetElement.style.top = "82%";
-
-  const rabbitPlanetElement = document.getElementById("penguinPlanet");
-  rabbitPlanetElement.style.width = "130px";
-  rabbitPlanetElement.style.height = "130px";
-  rabbitPlanetElement.style.left = "38%";
-  rabbitPlanetElement.style.top = "22%";
-
-  const penguinPlanetElement = document.getElementById("rabbitPlanet");
-  penguinPlanetElement.style.width = "89px";
-  penguinPlanetElement.style.height = "65px";
-  penguinPlanetElement.style.left = "63%";
-  penguinPlanetElement.style.top = "70%";
-}
-
 function checkCollisions() {
-  let circleCenterX = 0;
-  let circleCenterY = 0;
   // rabbitplanet collision circles
-  const dxC1 = circleX - littleCircle1X;
-  const dyC1 = circleY - littleCircle1Y;
-  const distanceC1 = Math.sqrt(dxC1 * dxC1 + dyC1 * dyC1);
-  const angleC1 = Math.atan2(dyC1, dxC1);
-  if (distanceC1 < circle1Radius + circleRadius) {
-    circleCenterX = littleCircle1X + circle1Radius * Math.cos(angleC1) * 3;
-    circleCenterY = littleCircle1Y + circle1Radius * Math.sin(angleC1) * 3;
-
-    rgb = rabbitColors;
-    player = rabbitImage;
-    circleX = circleCenterX;
-    circleY = circleCenterY;
+  var [distanceC1, angleC1] = calculatePosition(helpingPlanets[0]);
+  if (distanceC1 < helpingPlanets[0].radius + circleRadius) {
+    repositionCharacter(
+      helpingPlanets[0],
+      rabbitColors,
+      rabbitImage,
+      angleC1,
+      3
+    );
   }
 
-  const dxC2 = circleX - littleCircle2X;
-  const dyC2 = circleY - littleCircle2Y;
-  const distanceC2 = Math.sqrt(dxC2 * dxC2 + dyC2 * dyC2);
-  const angleC2 = Math.atan2(dyC2, dxC2);
-  if (distanceC2 < circle2Radius + circleRadius) {
-    circleCenterX = littleCircle2X + circle2Radius * Math.cos(angleC2) * 3;
-    circleCenterY = littleCircle2Y + circle2Radius * Math.sin(angleC2) * 3;
-
-    rgb = rabbitColors;
-    player = rabbitImage;
-    circleX = circleCenterX;
-    circleY = circleCenterY;
+  var [distanceC2, angleC2] = calculatePosition(helpingPlanets[1]);
+  if (distanceC2 < helpingPlanets[1].radius + circleRadius) {
+    repositionCharacter(
+      helpingPlanets[1],
+      rabbitColors,
+      rabbitImage,
+      angleC2,
+      3
+    );
   }
 
   for (let i = 0; i < planets.length; i++) {
-    //Circles Collision
-    const dx = circleX - planets[i].x;
-    const dy = circleY - planets[i].y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
+    var [distance, angle] = calculatePosition(planets[i]);
     if (distance < planets[i].radius + circleRadius) {
-      // Calculate the angle between the planet's center and the moving circle
-      const angle = Math.atan2(dy, dx);
-
       // Calculate the position of the moving circle's center at the edge of the planet
       if (i == 2) {
-        circleCenterX =
-          planets[i].x + planets[i].radius * Math.cos(angle) * 1.5;
-        circleCenterY =
-          planets[i].y + planets[i].radius * Math.sin(angle) * 1.5;
-
-        rgb = penguinColors;
-        player = penguinImage;
+        repositionCharacter(
+          planets[i],
+          penguinColors,
+          penguinImage,
+          angle,
+          1.6
+        );
       } else if (i == 1) {
-        circleCenterX =
-          planets[i].x + planets[i].radius * Math.cos(angle) * 1.8;
-        circleCenterY =
-          planets[i].y + planets[i].radius * Math.sin(angle) * 1.8;
-
-        rgb = rabbitColors;
-        player = rabbitImage;
+        repositionCharacter(planets[i], rabbitColors, rabbitImage, angle, 1.8);
       } else {
-        circleCenterX =
-          planets[i].x + planets[i].radius * Math.cos(angle) * 1.8;
-        circleCenterY =
-          planets[i].y + planets[i].radius * Math.sin(angle) * 1.8;
-
-        rgb = turtleColors;
-        player = turtleImage;
+        repositionCharacter(planets[i], turtleColors, turtleImage, angle, 1.8);
       }
-      // Update the position of the moving circle to stay on the edge of the planet
-      circleX = circleCenterX;
-      circleY = circleCenterY;
     }
   }
+}
+
+function calculatePosition(planet) {
+  const dx = circleX - planet.x;
+  const dy = circleY - planet.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  // Calculate the angle between the planet's center and the moving circle
+  const angle = Math.atan2(dy, dx);
+  return [distance, angle];
+}
+
+function repositionCharacter(planet, colors, image, angle, multiplier) {
+  circleCenterX = planet.x + planet.radius * Math.cos(angle) * multiplier;
+  circleCenterY = planet.y + planet.radius * Math.sin(angle) * multiplier;
+
+  rgb = colors;
+  player = image;
+
+  circleX = circleCenterX;
+  circleY = circleCenterY;
 }
 
 function drawStars() {
@@ -359,30 +302,18 @@ function drawStars() {
   }
 }
 
-function introductionWindow() {
-  const introWindow = document.getElementById("introWindow");
-  introWindow.style.width = "400px";
-  introWindow.style.height = "500px";
-  introWindow.style.left = "36%";
-  introWindow.style.top = "100px";
-}
-
 function gameLoop() {
   drawBackground();
   if (isDialogClosed && firstClick) {
     drawStars();
     checkCollisions();
-    drawCircle();
+    drawCharacter();
   }
 
   requestAnimationFrame(gameLoop);
 }
-
-var clickCount = 0;
-let direction = false;
+let introDurection = false;
 function handleClick(event) {
-  clickCount++;
-
   if (!firstClick) {
     circleX = mouse.x;
     circleY = mouse.y;
@@ -393,53 +324,61 @@ function handleClick(event) {
   firstClick = true;
   isDialogClosed = true;
 
-  positionOfPlanets();
-  drawCircle();
-  if(direction){
-    const introWindow = document.getElementById("introWindow");
-    introWindow.style.width = "400px";
-    introWindow.style.height = "500px";
-    introWindow.style.left = "36%";
-    introWindow.style.top = "-100%";
-    direction = false;
+  changePlanetsPosition();
+  drawCharacter();
+  if(introDurection){
+    resizeElement("introWindow", "400px", "500px", "36%", "-100%");
+    introDurection = false;;
   } else{
-    const introWindow = document.getElementById("introWindow");
-    introWindow.style.width = "400px";
-    introWindow.style.height = "500px";
-    introWindow.style.left = "36%";
-    introWindow.style.top = "100%";
-    direction = true;
+    resizeElement("introWindow", "400px", "500px", "36%", "100%");
+    introDurection = true;
   }
   
 }
 
-canvas.addEventListener("mousemove", mousemove);
+function showDialog() {
+  resizeElement("introWindow", "400px", "500px", "36%", "100px");
+}
 
-var myButton = document.getElementById("closeButton");
-myButton.addEventListener("click", handleClick);
+function changePlanetsPosition() {
+  resizeElement("turtlePlanet", "140px", "140px", "200px", "200px");
+  resizeElement("penguinPlanet", "230px", "230px", "1300px", "500px");
+  resizeElement("rabbitPlanet", "246px", "180px", "600px", "400px");
+}
 
-gameLoop();
-setTimeout(function () {
-  introductionWindow();
-}, 50);
+function showIntroduction() {
+  resizeElement("turtlePlanet", "80px", "80px", "52%", "82%");
+  resizeElement("penguinPlanet", "130px", "130px", "38%", "22%");
+  resizeElement("rabbitPlanet", "89px", "65px", "63%", "70%");
+}
 
-setTimeout(function () {
-  showIntroduction();
-}, 200);
+function resizeElement(elementId, width, height, left, top) {
+  const element = document.getElementById(elementId);
+  element.style.width = width;
+  element.style.height = height;
+  element.style.left = left;
+  element.style.top = top;
+}
+
+function handleResize() {
+  bgCanvas.width = window.innerWidth;
+  bgCanvas.height = window.innerHeight;
+}
 
 function checkIdle() {
   var currentTime = new Date().getTime();
+
   if (lastMouseMove == null || !isDialogClosed) {
     lastMouseMove = currentTime;
-
     setTimeout(checkIdle, 100);
     return;
   }
+
   var elapsedTime = currentTime - lastMouseMove;
 
   if (elapsedTime >= idleTime) {
     isDialogClosed = false;
-    introductionWindow();
+    showDialog();
     showIntroduction();
 
     lastMouseMove = currentTime;
@@ -448,11 +387,22 @@ function checkIdle() {
   setTimeout(checkIdle, 100);
 }
 
-checkIdle();
-
-function handleResize() {
-  bgCanvas.width = window.innerWidth;
-  bgCanvas.height = window.innerHeight;
-}
-
+// -------------------------------------------------------
+// EVENT LISTENERS //
+closeButton.addEventListener("click", handleClick);
+canvas.addEventListener("mousemove", mousemove);
 window.addEventListener("resize", handleResize);
+
+// -------------------------------------------------------
+// MAIN CODE //
+gameLoop();
+
+setTimeout(function () {
+  showDialog();
+}, 50);
+
+setTimeout(function () {
+  showIntroduction();
+}, 200);
+
+checkIdle();

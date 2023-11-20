@@ -366,6 +366,7 @@ function introductionWindow() {
   introWindow.style.left = "36%";
   introWindow.style.top = "100px";
 }
+
 function gameLoop() {
   drawBackground();
   if (isDialogClosed && firstClick) {
@@ -378,7 +379,7 @@ function gameLoop() {
 }
 
 var clickCount = 0;
-
+let direction = false;
 function handleClick(event) {
   clickCount++;
 
@@ -394,11 +395,22 @@ function handleClick(event) {
 
   positionOfPlanets();
   drawCircle();
-  const introWindow = document.getElementById("introWindow");
-  introWindow.style.width = "400px";
-  introWindow.style.height = "500px";
-  introWindow.style.left = "36%";
-  introWindow.style.top = "100%";
+  if(direction){
+    const introWindow = document.getElementById("introWindow");
+    introWindow.style.width = "400px";
+    introWindow.style.height = "500px";
+    introWindow.style.left = "36%";
+    introWindow.style.top = "-100%";
+    direction = false;
+  } else{
+    const introWindow = document.getElementById("introWindow");
+    introWindow.style.width = "400px";
+    introWindow.style.height = "500px";
+    introWindow.style.left = "36%";
+    introWindow.style.top = "100%";
+    direction = true;
+  }
+  
 }
 
 canvas.addEventListener("mousemove", mousemove);

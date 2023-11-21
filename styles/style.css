@@ -23,6 +23,17 @@ h1 {
   left: 52%; /* horizontal */
   transform: translate(-50%, -50%); /*  */
   transition: all 1.5s ease; /* animation */
+  animation: turtleAnimation 5s infinite ease-in-out;
+}
+
+@keyframes turtleAnimation {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-15px);
+  }
 }
 
 #rabbitPlanet {
@@ -33,6 +44,17 @@ h1 {
   left: 63%;
   transform: translate(-50%, -50%);
   transition: all 1.5s ease;
+  animation: rabbitAnimation 4s infinite ease-in-out;
+}
+
+@keyframes rabbitAnimation {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(10px);
+  }
 }
 
 #penguinPlanet {
@@ -43,6 +65,17 @@ h1 {
   left: 35%;
   transform: translate(-50%, -50%);
   transition: all 1.5s ease;
+  animation: penguinAnimation 6s infinite ease-in-out;
+}
+
+@keyframes penguinAnimation {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px);
+  }
 }
 
 #introWindow {

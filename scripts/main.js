@@ -326,14 +326,13 @@ function handleClick(event) {
 
   changePlanetsPosition();
   drawCharacter();
-  if(introDurection){
+  if (introDurection) {
     resizeElement("introWindow", "400px", "500px", "36%", "-100%");
-    introDurection = false;;
-  } else{
+    introDurection = false;
+  } else {
     resizeElement("introWindow", "400px", "500px", "36%", "100%");
     introDurection = true;
   }
-  
 }
 
 function showDialog() {
@@ -341,15 +340,33 @@ function showDialog() {
 }
 
 function changePlanetsPosition() {
+  pauseAnimation("turtlePlanet");
+  pauseAnimation("penguinPlanet");
+  pauseAnimation("rabbitPlanet");
+
   resizeElement("turtlePlanet", "140px", "140px", "200px", "200px");
   resizeElement("penguinPlanet", "230px", "230px", "1300px", "500px");
   resizeElement("rabbitPlanet", "246px", "180px", "600px", "400px");
+}
+
+function pauseAnimation(elementId) {
+  var element = document.getElementById(elementId);
+  element.style.animationPlayState = "paused";
 }
 
 function showIntroduction() {
   resizeElement("turtlePlanet", "80px", "80px", "52%", "82%");
   resizeElement("penguinPlanet", "130px", "130px", "35%", "19%");
   resizeElement("rabbitPlanet", "89px", "65px", "63%", "70%");
+
+  restartAnimation("turtlePlanet");
+  restartAnimation("penguinPlanet");
+  restartAnimation("rabbitPlanet");
+}
+
+function restartAnimation(elementId) {
+  var element = document.getElementById(elementId);
+  element.style.animationPlayState = "running";
 }
 
 function resizeElement(elementId, width, height, left, top) {
